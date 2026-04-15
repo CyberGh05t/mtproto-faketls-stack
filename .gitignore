@@ -3,3 +3,4 @@ docs/superpowers
 deploy/3proxy/users.conf
 .claude
 .codex
+AGENTS.md
