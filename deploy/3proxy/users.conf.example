@@ -1,0 +1,4 @@
+# 3proxy users file — copy to users.conf and fill in real passwords
+# Format: users <name>:CL:<password>
+# Add one entry per employee
+users employee1:CL:change_me_1 employee2:CL:change_me_2
