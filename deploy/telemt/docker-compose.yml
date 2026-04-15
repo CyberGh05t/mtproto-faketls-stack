@@ -1,0 +1,8 @@
+services:
+  telemt:
+    image: telemt:local
+    container_name: telemt
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /opt/mtproto/telemt/config.toml:/app/config.toml:ro
