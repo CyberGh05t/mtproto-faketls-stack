@@ -1,0 +1,40 @@
+show_link = ["user"]
+
+[general]
+fast_mode = true
+use_middle_proxy = false
+
+[network]
+ipv4 = true
+ipv6 = false
+prefer = 4
+
+[general.modes]
+tls = true
+
+[server]
+port = 3128
+listen_addr_ipv4 = "127.0.0.1"
+
+[[server.listeners]]
+ip = "127.0.0.1"
+
+[timeouts]
+client_first_byte_idle_secs = 300
+client_handshake = 60
+client_keepalive = 60
+client_ack = 300
+
+[censorship]
+tls_domain = "yandex.ru"
+mask = true
+mask_port = 8443
+fake_cert_len = 2048
+
+[access.users]
+user = "YOUR_32HEX_SECRET_NO_EE_PREFIX"
+
+[[upstreams]]
+type = "direct"
+enabled = true
+weight = 10
