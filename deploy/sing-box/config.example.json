@@ -1,0 +1,28 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "telemt-egress-in",
+      "listen": "127.0.0.1",
+      "listen_port": 10809,
+      "set_system_proxy": false
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "http",
+      "tag": "residential-http-out",
+      "server": "HTTP_PROXY_HOST_PLACEHOLDER",
+      "server_port": 3128,
+      "username": "HTTP_PROXY_USER_PLACEHOLDER",
+      "password": "HTTP_PROXY_PASS_PLACEHOLDER"
+    }
+  ],
+  "route": {
+    "final": "residential-http-out"
+  }
+}

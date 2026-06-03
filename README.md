@@ -8,6 +8,7 @@ traffic types to local backends:
 - MTProto FakeTLS traffic goes to `telemt`.
 - Ordinary HTTPS traffic goes to a decoy nginx site.
 - SOCKS5 traffic goes to `3proxy`.
+- Docker container logs go to persistent systemd-journald storage.
 
 The primary goal is stable MTProto proxy service on port 443. The secondary
 goal is keeping the decoy HTTPS site believable and available.
@@ -30,6 +31,26 @@ HAProxy
 
 The public listener is owned by HAProxy. nginx does not bind public `:443` in
 the current design.
+
+Outbound connectivity can optionally use a local sing-box egress bridge when
+the relay host cannot reach Telegram DCs directly:
+
+```text
+telemt 127.0.0.1:3128
+  |
+  | SOCKS5 upstream 127.0.0.1:10809
+  v
+sing-box mixed inbound
+  |
+  | HTTP CONNECT outbound
+  v
+residential proxy
+  |
+  v
+Telegram DCs
+```
+
+The bridge is local-only and does not change the public HAProxy listener.
 
 ## Components
 
@@ -74,6 +95,22 @@ The real MTProto secret must not be committed. Use the placeholder in
 `deploy/telemt/config.toml` as the tracked example value and keep the live
 secret only on the relay host.
 
+### sing-box Egress Bridge
+
+Files:
+
+- `deploy/sing-box/config.example.json`
+- `deploy/sing-box/docker-compose.yml`
+
+Role:
+
+- exposes a loopback-only proxy listener for telemt;
+- sends outbound traffic through a residential HTTP CONNECT proxy;
+- keeps provider credentials on the relay host only.
+
+Use this when direct relay-host egress to Telegram DCs is blocked. Do not expose
+the sing-box listener publicly.
+
 ### nginx Decoy
 
 File:
@@ -116,8 +153,13 @@ deploy/
     3proxy.service.override.conf
   haproxy/
     haproxy.cfg
+  journald/
+    mtproto-docker.conf
   nginx/
     nginx.conf
+  sing-box/
+    config.example.json
+    docker-compose.yml
   telemt/
     config.toml
     docker-compose.yml
@@ -158,6 +200,8 @@ Relay-host checks after deployment:
 ```sh
 systemctl status haproxy nginx 3proxy
 docker ps
+journalctl CONTAINER_NAME=telemt
+journalctl CONTAINER_NAME=sing-box-telemt-egress
 ss -ltnp
 haproxy -c -f /etc/haproxy/haproxy.cfg
 nginx -t
@@ -191,6 +235,9 @@ Common live paths:
 /opt/mtproto/telemt/config.toml
 /opt/mtproto/telemt/docker-compose.yml
 /opt/mtproto/telemt/data/beobachten.txt
+/opt/mtproto/sing-box/config.json
+/opt/mtproto/sing-box/docker-compose.yml
+/etc/systemd/journald.conf.d/mtproto-docker.conf
 /etc/3proxy/3proxy.cfg
 /var/www/decoy
 ```

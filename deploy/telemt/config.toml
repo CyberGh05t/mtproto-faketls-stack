@@ -38,6 +38,7 @@ fake_cert_len = 2048
 user = "YOUR_32HEX_SECRET_NO_EE_PREFIX"
 
 [[upstreams]]
-type = "direct"
+type = "socks5"
+address = "127.0.0.1:10809"
 enabled = true
 weight = 10

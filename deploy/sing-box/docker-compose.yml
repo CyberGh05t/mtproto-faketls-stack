@@ -1,0 +1,21 @@
+services:
+  sing-box:
+    image: ghcr.io/sagernet/sing-box:latest
+    container_name: sing-box-telemt-egress
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: Europe/Moscow
+    command: ["run", "-c", "/etc/sing-box/config.json"]
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 10809"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: journald
+      options:
+        tag: "{{.Name}}"
+    volumes:
+      - /opt/mtproto/sing-box/config.json:/etc/sing-box/config.json:ro
