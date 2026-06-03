@@ -1,8 +1,29 @@
+# Deployment-only environment and secrets
+.env
+.env.*
+!.env.example
+!.env.deployment.example
 .env.deployment
-docs/superpowers
 deploy/3proxy/users.conf
-.claude
+
+# Local tool and agent state
+.claude/
 .codex
+.agents/
 AGENTS.md
-.agents
-PlitkaKlal
+docs/superpowers/
+
+# Decoy site working tree / server-synced static build
+PlitkaKlal/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Local logs and backups
+*.log
+*.bak
+*.backup
+*.backup_*

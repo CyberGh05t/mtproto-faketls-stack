@@ -1,0 +1,15 @@
+* text=auto eol=lf
+
+*.cfg text eol=lf
+*.conf text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.woff2 binary
