@@ -3,6 +3,8 @@ show_link = ["user"]
 [general]
 fast_mode = true
 use_middle_proxy = false
+beobachten = true
+beobachten_file = "/var/lib/telemt/beobachten.txt"
 
 [network]
 ipv4 = true

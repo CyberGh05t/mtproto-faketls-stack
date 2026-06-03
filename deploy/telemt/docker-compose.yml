@@ -6,3 +6,4 @@ services:
     network_mode: host
     volumes:
       - /opt/mtproto/telemt/config.toml:/app/config.toml:ro
+      - /opt/mtproto/telemt/data:/var/lib/telemt:rw
