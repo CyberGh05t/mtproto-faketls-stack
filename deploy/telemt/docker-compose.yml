@@ -1,9 +1,14 @@
 services:
   telemt:
-    image: telemt:local
+    image: ghcr.io/telemt/telemt:3.4.13
     container_name: telemt
     restart: unless-stopped
     network_mode: host
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     volumes:
       - /opt/mtproto/telemt/config.toml:/app/config.toml:ro
       - /opt/mtproto/telemt/data:/var/lib/telemt:rw

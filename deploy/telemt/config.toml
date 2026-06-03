@@ -1,6 +1,7 @@
 show_link = ["user"]
 
 [general]
+data_path = "/var/lib/telemt"
 fast_mode = true
 use_middle_proxy = false
 beobachten = true
